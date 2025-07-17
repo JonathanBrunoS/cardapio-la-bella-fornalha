@@ -1235,6 +1235,7 @@
                         "BROTO": 31.00
                     }
                 },
+                
                 {
                     "category": "PIZZAS DOCES",
                     "name": "BRIGADEIRO",
@@ -1246,7 +1247,7 @@
                 }
             ]
         };
- const menuData = {
+ const menuBebidas = {
             "bebidas": [
                 {
                     "category": "Refrigerantes",
@@ -1270,6 +1271,7 @@
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             renderPizzas();
+            renderBebidas();
             setupEventListeners();
             updateCartDisplay();
         });
@@ -1350,6 +1352,7 @@
                 pizzasByCategory[pizza.category].push(pizza);
             });
 
+         
             // Render each category
             Object.entries(pizzasByCategory).forEach(([category, pizzas]) => {
                 const categorySection = document.createElement('div');
@@ -1375,6 +1378,44 @@
             // Populate half pizza selectors
             populateHalfPizzaSelectors();
         }
+
+                          function renderBebidas() {
+            const bebidasContainer = document.getElementById('bebidas');
+            const bebidasByCategory = {};
+
+            // Group pizzas by category
+            menuData.bebidas.forEach(bebidas => {
+                if (!bebidasByCategory[bebidas.category]) {
+                    bebidasByCategory[babidas.category] = [];
+                }
+                bebidasByCategory[bebidas.category].push(bebidas);
+            });
+
+                                 Object.entries(bebidasByCategory).forEach(([category, bebidas]) => {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+
+                const categoryHeader = document.createElement('div');
+                categoryHeader.className = 'category-header';
+                categoryHeader.textContent = category;
+
+                const pizzaGrid = document.createElement('div');
+                pizzaGrid.className = 'pizza-grid';
+
+                pizzas.forEach(pizza => {
+                    const pizzaCard = createPizzaCard(pizza);
+                    pizzaGrid.appendChild(pizzaCard);
+                });
+
+                categorySection.appendChild(categoryHeader);
+                categorySection.appendChild(pizzaGrid);
+                pizzasContainer.appendChild(categorySection);
+            });
+
+            // Populate half pizza selectors
+            populateHalfPizzaSelectors();
+        }
+
 
         // Create pizza card
         function createPizzaCard(pizza) {
