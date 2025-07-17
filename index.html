@@ -116,7 +116,7 @@
             font-size: 1.2rem;
         }
 
-        /* Grid */
+        /* Pizza Grid */
         .pizza-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -644,12 +644,20 @@
 
             <!-- Bebidas Tab -->
             <div id="bebidas" class="tab-content">
-                <!-- Bebidas will be populated by JavaScript -->
+                <div class="empty-state">
+                    <div class="empty-state-icon">🥤</div>
+                    <h3>Bebidas</h3>
+                    <p>Refrigerantes 2 Litros - Consultar preços</p>
+                </div>
             </div>
 
             <!-- Sobremesas Tab -->
             <div id="sobremesas" class="tab-content">
-                <!-- Sobremesas will be populated by JavaScript -->
+                <div class="empty-state">
+                    <div class="empty-state-icon">🍰</div>
+                    <h3>Sobremesas</h3>
+                    <p>Em breve...</p>
+                </div>
             </div>
         </div>
     </main>
@@ -663,7 +671,7 @@
     <!-- Pizza Modal -->
     <div id="pizza-modal" class="modal">
         <div class="modal-content">
-            <button class="close-button" onclick="closePizzaModal()">×</button>
+            <button class="close-button" onclick="closePizzaModal()">&times;</button>
             <div class="modal-header">
                 <h2 id="modal-title" class="modal-title"></h2>
                 <p id="modal-description" class="modal-description"></p>
@@ -717,39 +725,10 @@
         </div>
     </div>
 
-    <!-- Sobremesa Modal -->
-    <div id="sobremesa-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-button" onclick="closeSobremesaModal()">×</button>
-            <div class="modal-header">
-                <h2 id="sobremesa-modal-title" class="modal-title"></h2>
-                <p id="sobremesa-modal-description" class="modal-description"></p>
-            </div>
-
-            <div class="size-selector">
-                <label class="form-label">Tamanho:</label>
-                <div class="size-options">
-                    <div class="size-option selected" data-size="GRANDE">
-                        <div class="size-name">Grande</div>
-                        <div class="size-price" id="sobremesa-price-grande">R$ 0,00</div>
-                    </div>
-                    <div class="size-option" data-size="BROTO">
-                        <div class="size-name">Broto</div>
-                        <div class="size-price" id="sobremesa-price-broto">R$ 0,00</div>
-                    </div>
-                </div>
-            </div>
-
-            <button id="add-sobremesa-to-cart-btn" class="btn btn-primary btn-full">
-                Adicionar ao Carrinho
-            </button>
-        </div>
-    </div>
-
     <!-- Cart Modal -->
     <div id="cart-modal" class="modal">
         <div class="modal-content">
-            <button class="close-button" onclick="closeCartModal()">×</button>
+            <button class="close-button" onclick="closeCartModal()">&times;</button>
             <div class="modal-header">
                 <h2 class="modal-title">Carrinho de Compras</h2>
             </div>
@@ -778,7 +757,7 @@
     <!-- Checkout Modal -->
     <div id="checkout-modal" class="modal">
         <div class="modal-content">
-            <button class="close-button" onclick="closeCheckoutModal()">×</button>
+            <button class="close-button" onclick="closeCheckoutModal()">&times;</button>
             <div class="modal-header">
                 <h2 class="modal-title">Finalizar Pedido</h2>
                 <p class="modal-description">Preencha seus dados para enviar o pedido</p>
@@ -1246,23 +1225,7 @@
                         "GRANDE": 51.00,
                         "BROTO": 33.00
                     }
-                }
-            ],
-            "bebidas": [
-                {
-                    "category": "Refrigerantes",
-                    "name": "Dolly 2L",
-                    "description": "Refrigerante Dolly de 2 litros",
-                    "price": 12.00
                 },
-                {
-                    "category": "Sucos",
-                    "name": "Suco de Laranja Natural",
-                    "description": "Suco de laranja fresco e natural",
-                    "price": 8.00
-                }
-            ],
-            "sobremesas": [
                 {
                     "category": "PIZZAS DOCES",
                     "name": "BANANA",
@@ -1280,33 +1243,57 @@
                         "GRANDE": 47.00,
                         "BROTO": 31.00
                     }
-                },
-                {
-                    "category": "SOBREMESAS",
-                    "name": "Bolo de Pote",
-                    "description": "Bolo de chocolate com recheio cremoso",
-                    "price": 10.00
                 }
-            ]
-        };
+                ],
+          "bebidas": [
+        {
+            "category": "Refrigerantes",
+            "name": "Dolly 2L",
+            "description": "Refrigerante Dolly de 2 litros",
+            "price": 12.00
+        },
+                  {
+            "category": "Refrigerantes",
+            "name": "Coca-Cola 2L",
+            "description": "Refrigerante Coca-cola de 2 litros",
+            "price": 12.00
+        },
+                  {
+            "category": "Refrigerantes",
+            "name": "Fanta Uva 2L",
+            "description": "Refrigerante Fanta Uva de 2 litros",
+            "price": 12.00
+        },
+        {
+            "category": "Sucos",
+            "name": "Suco de Laranja Natural",
+            "description": "Suco de laranja fresco e natural",
+            "price": 8.00
+        },
+                             {
+            "category": "Bebida-Alcoolica",
+            "name": "Brahma Chopp",
+            "description": "Latinha 269ml",
+            "price": 5.00
+        }
+    ]
+};
 
         // Global variables
         let cart = [];
         let selectedPizza = null;
-        let selectedSobremesa = null;
         let selectedSize = 'GRANDE';
         let isHalfPizza = false;
         let halfPizza1 = null;
         let halfPizza2 = null;
 
         // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            renderPizzas();
-            renderBebidas();
-            renderSobremesas();
-            setupEventListeners();
-            updateCartDisplay();
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    renderPizzas();
+    renderBebidas(); // Adicione esta linha
+    setupEventListeners();
+    updateCartDisplay();
+});
 
         // Setup event listeners
         function setupEventListeners() {
@@ -1318,19 +1305,10 @@
                 });
             });
 
-            // Pizza size selection
-            document.querySelectorAll('#pizza-modal .size-option').forEach(option => {
+            // Size selection
+            document.querySelectorAll('.size-option').forEach(option => {
                 option.addEventListener('click', function() {
-                    document.querySelectorAll('#pizza-modal .size-option').forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedSize = this.dataset.size;
-                });
-            });
-
-            // Sobremesa size selection
-            document.querySelectorAll('#sobremesa-modal .size-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('#sobremesa-modal .size-option').forEach(opt => opt.classList.remove('selected'));
+                    document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
                     selectedSize = this.dataset.size;
                 });
@@ -1356,9 +1334,8 @@
                 updateAddToCartButton();
             });
 
-            // Add to cart buttons
+            // Add to cart button
             document.getElementById('add-to-cart-btn').addEventListener('click', addToCart);
-            document.getElementById('add-sobremesa-to-cart-btn').addEventListener('click', addSobremesaToCart);
 
             // Cart button
             document.getElementById('cart-button').addEventListener('click', openCartModal);
@@ -1372,9 +1349,11 @@
 
         // Switch tabs
         function switchTab(tabId) {
+            // Update tab buttons
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
 
+            // Update tab content
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
         }
@@ -1384,6 +1363,7 @@
             const pizzasContainer = document.getElementById('pizzas');
             const pizzasByCategory = {};
 
+            // Group pizzas by category
             menuData.pizzas.forEach(pizza => {
                 if (!pizzasByCategory[pizza.category]) {
                     pizzasByCategory[pizza.category] = [];
@@ -1391,6 +1371,7 @@
                 pizzasByCategory[pizza.category].push(pizza);
             });
 
+            // Render each category
             Object.entries(pizzasByCategory).forEach(([category, pizzas]) => {
                 const categorySection = document.createElement('div');
                 categorySection.className = 'category-section';
@@ -1412,80 +1393,45 @@
                 pizzasContainer.appendChild(categorySection);
             });
 
+            // Populate half pizza selectors
             populateHalfPizzaSelectors();
         }
-
-        // Render bebidas
         function renderBebidas() {
-            const bebidasContainer = document.getElementById('bebidas');
-            bebidasContainer.innerHTML = '';
+    const bebidasContainer = document.getElementById('bebidas');
+    bebidasContainer.innerHTML = ''; // Limpa o conteúdo atual (empty-state)
 
-            const bebidasByCategory = {};
+    const bebidasByCategory = {};
 
-            menuData.bebidas.forEach(bebida => {
-                if (!bebidasByCategory[bebida.category]) {
-                    bebidasByCategory[bebida.category] = [];
-                }
-                bebidasByCategory[bebida.category].push(bebida);
-            });
-
-            Object.entries(bebidasByCategory).forEach(([category, bebidas]) => {
-                const categorySection = document.createElement('div');
-                categorySection.className = 'category-section';
-
-                const categoryHeader = document.createElement('div');
-                categoryHeader.className = 'category-header';
-                categoryHeader.textContent = category;
-
-                const bebidaGrid = document.createElement('div');
-                bebidaGrid.className = 'pizza-grid';
-
-                bebidas.forEach(bebida => {
-                    const bebidaCard = createBebidaCard(bebida);
-                    bebidaGrid.appendChild(bebidaCard);
-                });
-
-                categorySection.appendChild(categoryHeader);
-                categorySection.appendChild(bebidaGrid);
-                bebidasContainer.appendChild(categorySection);
-            });
+    // Agrupa bebidas por categoria
+    menuData.bebidas.forEach(bebida => {
+        if (!bebidasByCategory[bebida.category]) {
+            bebidasByCategory[bebida.category] = [];
         }
+        bebidasByCategory[bebida.category].push(bebida);
+    });
 
-        // Render sobremesas
-        function renderSobremesas() {
-            const sobremesasContainer = document.getElementById('sobremesas');
-            sobremesasContainer.innerHTML = '';
+    // Renderiza cada categoria
+    Object.entries(bebidasByCategory).forEach(([category, bebidas]) => {
+        const categorySection = document.createElement('div');
+        categorySection.className = 'category-section';
 
-            const sobremesasByCategory = {};
+        const categoryHeader = document.createElement('div');
+        categoryHeader.className = 'category-header';
+        categoryHeader.textContent = category;
 
-            menuData.sobremesas.forEach(sobremesa => {
-                if (!sobremesasByCategory[sobremesa.category]) {
-                    sobremesasByCategory[sobremesa.category] = [];
-                }
-                sobremesasByCategory[sobremesa.category].push(sobremesa);
-            });
+        const bebidaGrid = document.createElement('div');
+        bebidaGrid.className = 'pizza-grid'; // Reutiliza a classe pizza-grid
 
-            Object.entries(sobremesasByCategory).forEach(([category, sobremesas]) => {
-                const categorySection = document.createElement('div');
-                categorySection.className = 'category-section';
+        bebidas.forEach(bebida => {
+            const bebidaCard = createBebidaCard(bebida);
+            bebidaGrid.appendChild(bebidaCard);
+        });
 
-                const categoryHeader = document.createElement('div');
-                categoryHeader.className = 'category-header';
-                categoryHeader.textContent = category;
-
-                const sobremesaGrid = document.createElement('div');
-                sobremesaGrid.className = 'pizza-grid';
-
-                sobremesas.forEach(sobremesa => {
-                    const sobremesaCard = createSobremesaCard(sobremesa);
-                    sobremesaGrid.appendChild(sobremesaCard);
-                });
-
-                categorySection.appendChild(categoryHeader);
-                categorySection.appendChild(sobremesaGrid);
-                sobremesasContainer.appendChild(categorySection);
-            });
-        }
+        categorySection.appendChild(categoryHeader);
+        categorySection.appendChild(bebidaGrid);
+        bebidasContainer.appendChild(categorySection);
+    });
+}
 
         // Create pizza card
         function createPizzaCard(pizza) {
@@ -1501,61 +1447,27 @@
                         <span class="price-badge">Grande: R$ ${pizza.prices.GRANDE.toFixed(2)}</span>
                         <span class="price-badge outline">Broto: R$ ${pizza.prices.BROTO.toFixed(2)}</span>
                     </div>
-                    <button class="add-button" onclick="event.stopPropagation(); openPizzaModal(${JSON.stringify(pizza).replace(/"/g, '"')})">+</button>
+                    <button class="add-button" onclick="event.stopPropagation(); openPizzaModal(${JSON.stringify(pizza).replace(/"/g, '&quot;')})">+</button>
                 </div>
             `;
 
             return card;
         }
-
-        // Create bebida card
         function createBebidaCard(bebida) {
-            const card = document.createElement('div');
-            card.className = 'pizza-card';
+    const card = document.createElement('div');
+    card.className = 'pizza-card'; // Reutiliza a classe pizza-card
 
-            card.innerHTML = `
-                <div class="pizza-name">🥤 ${bebida.name}</div>
-                <div class="pizza-description">${bebida.description}</div>
-                <div class="pizza-prices">
-                    <span class="price-badge">R$ ${bebida.price.toFixed(2)}</span>
-                    <button class="add-button" onclick="addBebidaToCart(${JSON.stringify(bebida).replace(/"/g, '"')})">+</button>
-                </div>
-            `;
+    card.innerHTML = `
+        <div class="pizza-name">${bebida.name}</div>
+        <div class="pizza-description">${bebida.description}</div>
+        <div class="pizza-prices">
+            <span class="price-badge">R$ ${bebida.price.toFixed(2)}</span>
+            <button class="add-button" onclick="addBebidaToCart(${JSON.stringify(bebida).replace(/"/g, '&quot;')})">+</button>
+        </div>
+    `;
 
-            return card;
-        }
-
-        // Create sobremesa card
-        function createSobremesaCard(sobremesa) {
-            const card = document.createElement('div');
-            card.className = 'pizza-card';
-
-            let priceHtml = '';
-            if (sobremesa.prices) {
-                priceHtml = `
-                    <div class="price-badges">
-                        <span class="price-badge">Grande: R$ ${sobremesa.prices.GRANDE.toFixed(2)}</span>
-                        <span class="price-badge outline">Broto: R$ ${sobremesa.prices.BROTO.toFixed(2)}</span>
-                    </div>
-                    <button class="add-button" onclick="event.stopPropagation(); openSobremesaModal(${JSON.stringify(sobremesa).replace(/"/g, '"')})">+</button>
-                `;
-            } else {
-                priceHtml = `
-                    <span class="price-badge">R$ ${sobremesa.price.toFixed(2)}</span>
-                    <button class="add-button" onclick="addSobremesaToCart(${JSON.stringify(sobremesa).replace(/"/g, '"')})">+</button>
-                `;
-            }
-
-            card.innerHTML = `
-                <div class="pizza-name">🍰 ${sobremesa.name}</div>
-                <div class="pizza-description">${sobremesa.description}</div>
-                <div class="pizza-prices">
-                    ${priceHtml}
-                </div>
-            `;
-
-            return card;
-        }
+    return card;
+}
 
         // Open pizza modal
         function openPizzaModal(pizza) {
@@ -1570,8 +1482,9 @@
             document.getElementById('price-grande').textContent = `R$ ${pizza.prices.GRANDE.toFixed(2)}`;
             document.getElementById('price-broto').textContent = `R$ ${pizza.prices.BROTO.toFixed(2)}`;
 
-            document.querySelectorAll('#pizza-modal .size-option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('#pizza-modal [data-size="GRANDE"]').classList.add('selected');
+            // Reset selections
+            document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector('[data-size="GRANDE"]').classList.add('selected');
             document.querySelector('input[value="whole"]').checked = true;
             document.getElementById('half-pizza-selector').style.display = 'none';
             document.getElementById('half-pizza-1').value = '';
@@ -1581,30 +1494,9 @@
             document.getElementById('pizza-modal').classList.add('active');
         }
 
-        // Open sobremesa modal
-        function openSobremesaModal(sobremesa) {
-            selectedSobremesa = sobremesa;
-            selectedSize = 'GRANDE';
-
-            document.getElementById('sobremesa-modal-title').textContent = sobremesa.name;
-            document.getElementById('sobremesa-modal-description').textContent = sobremesa.description;
-            document.getElementById('sobremesa-price-grande').textContent = `R$ ${sobremesa.prices.GRANDE.toFixed(2)}`;
-            document.getElementById('sobremesa-price-broto').textContent = `R$ ${sobremesa.prices.BROTO.toFixed(2)}`;
-
-            document.querySelectorAll('#sobremesa-modal .size-option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('#sobremesa-modal [data-size="GRANDE"]').classList.add('selected');
-
-            document.getElementById('sobremesa-modal').classList.add('active');
-        }
-
         // Close pizza modal
         function closePizzaModal() {
             document.getElementById('pizza-modal').classList.remove('active');
-        }
-
-        // Close sobremesa modal
-        function closeSobremesaModal() {
-            document.getElementById('sobremesa-modal').classList.remove('active');
         }
 
         // Populate half pizza selectors
@@ -1625,20 +1517,19 @@
             });
         }
 
-        // Update add to cart button (for pizzas)
+        // Update add to cart button
         function updateAddToCartButton() {
             const button = document.getElementById('add-to-cart-btn');
             const isDisabled = isHalfPizza && (!halfPizza1 || !halfPizza2 || halfPizza1.name === halfPizza2.name);
             button.disabled = isDisabled;
         }
 
-        // Add pizza to cart
+        // Add to cart
         function addToCart() {
             if (!selectedPizza) return;
 
             const cartItem = {
                 id: Date.now(),
-                type: "pizza",
                 name: isHalfPizza ? `${halfPizza1.name} / ${halfPizza2.name}` : selectedPizza.name,
                 description: isHalfPizza ? `${halfPizza1.description} / ${halfPizza2.description}` : selectedPizza.description,
                 size: selectedSize,
@@ -1654,38 +1545,18 @@
             closePizzaModal();
         }
 
-        // Add bebida to cart
         function addBebidaToCart(bebida) {
-            const cartItem = {
-                id: Date.now(),
-                type: "bebida",
-                name: bebida.name,
-                description: bebida.description,
-                price: bebida.price,
-                quantity: 1
-            };
-            cart.push(cartItem);
-            updateCartDisplay();
-        }
-
-        // Add sobremesa to cart
-        function addSobremesaToCart(sobremesa) {
-            const cartItem = {
-                id: Date.now(),
-                type: sobremesa.prices ? "sobremesa_pizza" : "sobremesa",
-                name: sobremesa.name,
-                description: sobremesa.description,
-                size: sobremesa.prices ? selectedSize : undefined,
-                price: sobremesa.prices ? sobremesa.prices[selectedSize] : sobremesa.price,
-                quantity: 1
-            };
-            cart.push(cartItem);
-            updateCartDisplay();
-            if (sobremesa.prices) {
-                closeSobremesaModal();
-            }
-        }
-
+    const cartItem = {
+        id: Date.now(),
+        type: "bebida", // Diferencia bebidas de pizzas
+        name: bebida.name,
+        description: bebida.description,
+        price: bebida.price,
+        quantity: 1
+    };
+    cart.push(cartItem);
+    updateCartDisplay();
+}
         // Update cart display
         function updateCartDisplay() {
             const cartButton = document.getElementById('cart-button');
@@ -1737,37 +1608,36 @@
         }
 
         // Create cart item
-        function createCartItem(item) {
-            const cartItem = document.createElement('div');
-            cartItem.className = 'cart-item';
+       function createCartItem(item) {
+    const cartItem = document.createElement('div');
+    cartItem.className = 'cart-item';
 
-            let itemDetails = `
-                <div class="cart-item-header">
-                    <div>
-                        <div class="cart-item-name">${item.name}</div>
-            `;
+    let itemDetails = `
+        <div class="cart-item-header">
+            <div>
+                <div class="cart-item-name">${item.name}</div>
+    `;
 
-            if (item.type === "pizza" || item.type === "sobremesa_pizza") {
-                itemDetails += `
-                        <div class="cart-item-size">${item.size}</div>
-                `;
-            }
+    if (item.type === "pizza") {
+        itemDetails += `
+                <div class="cart-item-size">${item.size}</div>
+        `;
+    }
 
-            itemDetails += `
-                        <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
-                    </div>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
-                        <span class="quantity-display">${item.quantity}</span>
-                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
-                    </div>
-                </div>
-            `;
+    itemDetails += `
+                <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
+            </div>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                <span class="quantity-display">${item.quantity}</span>
+                <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+            </div>
+        </div>
+    `;
 
-            cartItem.innerHTML = itemDetails;
-            return cartItem;
-        }
-
+    cartItem.innerHTML = itemDetails;
+    return cartItem;
+}
         // Update quantity
         function updateQuantity(id, newQuantity) {
             if (newQuantity === 0) {
@@ -1806,46 +1676,46 @@
 
         // Send to WhatsApp
         function sendToWhatsApp() {
-            const customerName = document.getElementById('customer-name').value;
-            const customerPhone = document.getElementById('customer-phone').value;
-            const customerAddress = document.getElementById('customer-address').value;
-            const paymentMethod = document.getElementById('payment-method').value;
-            const observations = document.getElementById('observations').value;
+    const customerName = document.getElementById('customer-name').value;
+    const customerPhone = document.getElementById('customer-phone').value;
+    const customerAddress = document.getElementById('customer-address').value;
+    const paymentMethod = document.getElementById('payment-method').value;
+    const observations = document.getElementById('observations').value;
 
-            let message = `🍕 *PEDIDO - PIZZARIA LA BELLA FORNALHA* 🍕\n\n`;
-            message += `👤 *DADOS DO CLIENTE:*\n`;
-            message += `Nome: ${customerName}\n`;
-            message += `Telefone: ${customerPhone}\n`;
-            message += `Endereço: ${customerAddress}\n\n`;
-            
-            message += `🛒 *ITENS DO PEDIDO:*\n`;
-            cart.forEach((item, index) => {
-                message += `${index + 1}. ${item.name}`;
-                if (item.type === "pizza" || item.type === "sobremesa_pizza") {
-                    message += ` (${item.size})`;
-                }
-                message += `\n`;
-                message += `   Qtd: ${item.quantity}x - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
-                if (item.description) {
-                    message += `   ${item.description}\n`;
-                }
-                message += `\n`;
-            });
-            
-            const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-            message += `💰 *TOTAL: R$ ${total.toFixed(2)}*\n\n`;
-            message += `💳 *FORMA DE PAGAMENTO:* ${paymentMethod}\n\n`;
-            
-            if (observations) {
-                message += `📝 *OBSERVAÇÕES:* ${observations}\n\n`;
-            }
-            
-            message += `Obrigado pela preferência! 🙏`;
-
-            const phoneNumber = '5511959228663';
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+    let message = `🍕 *PEDIDO - PIZZARIA LA BELLA FORNALHA* 🍕\n\n`;
+    message += `👤 *DADOS DO CLIENTE:*\n`;
+    message += `Nome: ${customerName}\n`;
+    message += `Telefone: ${customerPhone}\n`;
+    message += `Endereço: ${customerAddress}\n\n`;
+    
+    message += `🛒 *ITENS DO PEDIDO:*\n`;
+    cart.forEach((item, index) => {
+        message += `${index + 1}. ${item.name}`;
+        if (item.type === "pizza") {
+            message += ` (${item.size})`;
         }
+        message += `\n`;
+        message += `   Qtd: ${item.quantity}x - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+        if (item.description) {
+            message += `   ${item.description}\n`;
+        }
+        message += `\n`;
+    });
+    
+    const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    message += `💰 *TOTAL: R$ ${total.toFixed(2)}*\n\n`;
+    message += `💳 *FORMA DE PAGAMENTO:* ${paymentMethod}\n\n`;
+    
+    if (observations) {
+        message += `📝 *OBSERVAÇÕES:* ${observations}\n\n`;
+    }
+    
+    message += `Obrigado pela preferência! 🙏`;
+
+    const phoneNumber = '5511959228663'; // Número da pizzaria
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
 
         // Close modals when clicking outside
         document.querySelectorAll('.modal').forEach(modal => {
@@ -1858,3 +1728,4 @@
     </script>
 </body>
 </html>
+
